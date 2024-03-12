@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Failed suite [TestSuite]" guice-stage="DEVELOPMENT">
+  <listeners>
+    <listener class-name="com.Nem_Pd.ExtentITestListenerClassAdapter"/>
+  </listeners>
+  <test thread-count="5" name="NEM_PD(failed)">
+    <classes>
+      <class name="com.Nem_Pd.Application">
+        <methods>
+          <include name="setUp"/>
+          <include name="submitApplication"/>
+          <include name="tearDown"/>
+        </methods>
+      </class> <!-- com.Nem_Pd.Application -->
+    </classes>
+  </test> <!-- NEM_PD(failed) -->
+</suite> <!-- Failed suite [TestSuite] -->

@@ -1,0 +1,30 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+
+<suite name="MyTestSuite" parallel="false">
+
+
+	<listeners>
+		<listener
+			class-name="com.Nem_Pd.ExtentITestListenerClassAdapter" />
+	</listeners>
+
+	<test name="Net Metering Application Test">
+	<parameter name="browser" value="chrome" />
+			<classes>
+		<!-- 	<class name="com.Nem_Pd.Application" />  -->
+			<class name="com.Nem_Pd.UtilityOfficeInfo" />			
+		</classes>
+ 
+	</test>
+	
+<!--
+	<test name="Utility Office Information Setup">
+	<parameter name="browser" value="chrome" />	
+		<classes>
+			<class name="com.Nem_Pd.UtilityOfficeInfo" />
+		</classes>
+
+	</test>
+ -->
+
+</suite>

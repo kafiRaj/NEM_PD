@@ -7,15 +7,14 @@ import org.openqa.selenium.chrome.ChromeDriver;
 
 public class BrowserSetup {
 	
-	WebDriver driver;
-	public String ChromeDriverPath=".\\src\\test\\resources\\drivers\\chromedriver.exe";
+	private static WebDriver driver;
+	public static String ChromeDriverPath=".\\src\\test\\resources\\drivers\\chromedriver.exe";
 	
-	public static void main(String[] args) {
-
-
-	}
+	   // Private constructor to prevent instantiation
+    private BrowserSetup() {}
 	
-	public WebDriver getChromeBrowser(){
+	
+	public static WebDriver getChromeBrowser(){
 
 
 		System.setProperty("webdriver.chrome.driver",ChromeDriverPath);

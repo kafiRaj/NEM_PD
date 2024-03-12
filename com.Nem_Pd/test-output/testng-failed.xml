@@ -6,7 +6,8 @@
       <class name="com.Nem_Pd.UtilityOfficeInfo">
         <methods>
           <include name="InsertUtilityOfficeInfo"/>
-          <include name="beforeMethod"/>
+          <include name="setUp"/>
+          <include name="tearDown"/>
           <include name="afterMethod"/>
         </methods>
       </class> <!-- com.Nem_Pd.UtilityOfficeInfo -->
