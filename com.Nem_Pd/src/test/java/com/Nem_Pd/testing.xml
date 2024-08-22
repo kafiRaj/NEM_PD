@@ -9,22 +9,21 @@
 	</listeners>
 
 	<test name="Net Metering Application Test">
-	<parameter name="browser" value="chrome" />
-			<classes>
-		<!-- 	<class name="com.Nem_Pd.Application" />  -->
-			<class name="com.Nem_Pd.UtilityOfficeInfo" />			
-		</classes>
- 
-	</test>
-	
-<!--
-	<test name="Utility Office Information Setup">
-	<parameter name="browser" value="chrome" />	
+		<parameter name="browser" value="chrome" />
 		<classes>
-			<class name="com.Nem_Pd.UtilityOfficeInfo" />
+			<!-- <class name="com.Nem_Pd.Application" /> 
+			<class name="com.Nem_Pd.SubUtilityOfficeInfo" 
+				/> <class name="com.Nem_Pd.UtilityOfficeInfo" /> 
+				<class name="com.Nem_Pd.BREBOfficeInfo" 
+				/> -->
+
+
+			
+			<class name="com.Nem_Pd.CleanApplication" />
+
 		</classes>
 
 	</test>
- -->
+
 
 </suite>

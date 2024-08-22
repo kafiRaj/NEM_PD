@@ -2,12 +2,12 @@
 <testng-results ignored="0" total="1" passed="1" failed="0" skipped="0">
   <reporter-output>
   </reporter-output>
-  <suite started-at="2024-03-12T11:53:32 BDT" name="MyTestSuite" finished-at="2024-03-12T11:58:35 BDT" duration-ms="303355">
+  <suite started-at="2024-08-22T16:43:36 BDT" name="MyTestSuite" finished-at="2024-08-22T16:44:31 BDT" duration-ms="55392">
     <groups>
     </groups>
-    <test started-at="2024-03-12T11:53:32 BDT" name="Net Metering Application Test" finished-at="2024-03-12T11:58:35 BDT" duration-ms="303355">
-      <class name="com.Nem_Pd.UtilityOfficeInfo">
-        <test-method is-config="true" signature="setUp(java.lang.String)[pri:0, instance:com.Nem_Pd.UtilityOfficeInfo@2118cddf]" started-at="2024-03-12T11:53:32 BDT" name="setUp" finished-at="2024-03-12T11:53:40 BDT" duration-ms="7480" status="PASS">
+    <test started-at="2024-08-22T16:43:36 BDT" name="Net Metering Application Test" finished-at="2024-08-22T16:44:31 BDT" duration-ms="55392">
+      <class name="com.Nem_Pd.CleanApplication">
+        <test-method is-config="true" signature="setUp(java.lang.String)[pri:0, instance:com.Nem_Pd.CleanApplication@484970b0]" started-at="2024-08-22T16:43:36 BDT" name="setUp" finished-at="2024-08-22T16:43:49 BDT" duration-ms="12994" status="PASS">
           <params>
             <param index="0">
               <value>
@@ -18,19 +18,15 @@
           <reporter-output>
           </reporter-output>
         </test-method> <!-- setUp -->
-        <test-method signature="InsertUtilityOfficeInfo()[pri:0, instance:com.Nem_Pd.UtilityOfficeInfo@2118cddf]" started-at="2024-03-12T11:53:40 BDT" name="InsertUtilityOfficeInfo" description="Inserting Utility Office Information" finished-at="2024-03-12T11:58:34 BDT" duration-ms="294842" status="PASS">
+        <test-method signature="submitApplication()[pri:0, instance:com.Nem_Pd.CleanApplication@484970b0]" started-at="2024-08-22T16:43:49 BDT" name="submitApplication" finished-at="2024-08-22T16:44:31 BDT" duration-ms="41917" status="PASS">
           <reporter-output>
           </reporter-output>
-        </test-method> <!-- InsertUtilityOfficeInfo -->
-        <test-method is-config="true" signature="afterMethod()[pri:0, instance:com.Nem_Pd.UtilityOfficeInfo@2118cddf]" started-at="2024-03-12T11:58:34 BDT" name="afterMethod" finished-at="2024-03-12T11:58:35 BDT" duration-ms="544" status="PASS">
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- afterMethod -->
-        <test-method is-config="true" signature="tearDown()[pri:0, instance:com.Nem_Pd.UtilityOfficeInfo@2118cddf]" started-at="2024-03-12T11:58:35 BDT" name="tearDown" finished-at="2024-03-12T11:58:35 BDT" duration-ms="1" status="PASS">
+        </test-method> <!-- submitApplication -->
+        <test-method is-config="true" signature="tearDown()[pri:0, instance:com.Nem_Pd.CleanApplication@484970b0]" started-at="2024-08-22T16:44:31 BDT" name="tearDown" finished-at="2024-08-22T16:44:31 BDT" duration-ms="1" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- tearDown -->
-      </class> <!-- com.Nem_Pd.UtilityOfficeInfo -->
+      </class> <!-- com.Nem_Pd.CleanApplication -->
     </test> <!-- Net Metering Application Test -->
   </suite> <!-- MyTestSuite -->
 </testng-results>

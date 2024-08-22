@@ -4,23 +4,35 @@ import java.io.File;
 
 import org.testng.annotations.*;
 import org.openqa.selenium.*;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 
-@Listeners(ExtentITestListenerClassAdapter.class)
+//@Listeners(ExtentITestListenerClassAdapter.class)
 public class Application extends ExtentITestListenerClassAdapter{
 
 	MasterData info = new MasterData(); 
 
-    
+
 	@Test
 	public void submitApplication() throws Exception {
 
-		driver.get(info.baseUrl);
+
+
+		driver.get(info.liveApplicationUrl);
+		Actions actions = new Actions(driver);
+
 
 		@SuppressWarnings("deprecation")
 		WebDriverWait wait = new WebDriverWait(driver, 30);
+
+
+
+		driver.findElement(By.xpath("//a[@href='/Apply']")).click();  
+
+
+
 
 		driver.findElement(By.id("s2id_NEM_PD_NetMetering_NemApplicationPublicDialog0_UtilityId")).click();    
 		WebElement utilityName = driver.findElement(By.id("s2id_autogen1_search")); 
@@ -30,64 +42,53 @@ public class Application extends ExtentITestListenerClassAdapter{
 		Thread.sleep(1000);
 		utilityName.sendKeys(Keys.ENTER);
 
-		WebElement consumerAccountNumber = wait.until(ExpectedConditions.elementToBeClickable(By.id("NEM_PD_NetMetering_NemApplicationPublicDialog0_ConsumerAccountNumber11")));
+		WebElement consumerAccountNumber = wait.until(ExpectedConditions.elementToBeClickable(By.name("ConsumerAccountNumber")));
 		//((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", consumerAccountNumber);
 		consumerAccountNumber.click();
 		consumerAccountNumber.clear();
 		consumerAccountNumber.sendKeys(info.consumerAccountNumber);
+		consumerAccountNumber.sendKeys(Keys.ENTER);
 
-		WebElement consumerName = wait.until(ExpectedConditions.elementToBeClickable(By.id("NEM_PD_NetMetering_NemApplicationPublicDialog0_ConsumerName")));
-		// ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", consumerName);
-		consumerName.click();
-		consumerName.clear();
-		consumerName.sendKeys(info.consumerName);
+		Boolean validationPassed = wait.until(ExpectedConditions.textToBePresentInElementLocated(By.id("select2-chosen-3"), "Executive Engineer, NOCS, Ramna"));
 
-		WebElement meterNumber = wait.until(ExpectedConditions.elementToBeClickable(By.id("NEM_PD_NetMetering_NemApplicationPublicDialog0_MeterNumber")));
-		//((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", meterNumber);
-		meterNumber.click();
-		meterNumber.clear();
-		meterNumber.sendKeys(info.meterNumber);
-
-		WebElement tariff = wait.until(ExpectedConditions.elementToBeClickable(By.id("NEM_PD_NetMetering_NemApplicationPublicDialog0_Tariff")));
-		//((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", tariff);
-		tariff.click();
-		tariff.clear();
-		tariff.sendKeys(info.tariff);
-
-		WebElement contractedLoad = wait.until(ExpectedConditions.elementToBeClickable(By.id("NEM_PD_NetMetering_NemApplicationPublicDialog0_ContractedLoadKw")));
-		((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", contractedLoad);
-		contractedLoad.click();
-		contractedLoad.clear();
-		contractedLoad.sendKeys(info.contractedLoad);
-
-		WebElement voltageLevel = wait.until(ExpectedConditions.elementToBeClickable(By.id("NEM_PD_NetMetering_NemApplicationPublicDialog0_VoltageLevel")));
-		((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", voltageLevel);
-		voltageLevel.click();
-		voltageLevel.clear();
-		voltageLevel.sendKeys(info.voltageLevel);
-
-		WebElement applicantMobile = wait.until(ExpectedConditions.elementToBeClickable(By.name("ApplicantMobile")));
-		//((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", applicantMobile);
-		applicantMobile.click();
-		applicantMobile.clear();
-		applicantMobile.sendKeys(info.applicantMobile);    
+		// Proceed to enter the ApplicantMobile only if validation is successful
+			
+		if (validationPassed) {
+		    WebElement applicantMobile = wait.until(ExpectedConditions.visibilityOfElementLocated(By.name("ApplicantMobile")));
+		    actions.moveToElement(applicantMobile).click().perform();
+		    applicantMobile.clear();
+		    Thread.sleep(1000);
+		    applicantMobile.sendKeys(info.applicantMobile);
+		}
 
 		WebElement applicantEmail = wait.until(ExpectedConditions.elementToBeClickable(By.id("NEM_PD_NetMetering_NemApplicationPublicDialog0_ApplicantEmail")));
-		((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", applicantEmail);
-		applicantEmail.click();
+		actions.moveToElement(applicantEmail).click().perform();
 		applicantEmail.clear();
 		applicantEmail.sendKeys(info.applicantEmail);
 
 
-		WebElement applicantNationalId = wait.until(ExpectedConditions.elementToBeClickable(By.id("NEM_PD_NetMetering_NemApplicationPublicDialog0_ApplicantNid")));
-		((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", applicantNationalId);
-		applicantNationalId.click();
+		WebElement applicantNationalityParent = wait.until(ExpectedConditions.elementToBeClickable(By.id("s2id_NEM_PD_NetMetering_NemApplicationPublicDialog0_ApplicantNationality"))); 
+		actions.moveToElement(applicantNationalityParent).click().perform();
+
+
+		WebElement applicantNationality = driver.findElement(By.id("s2id_autogen6_search")); 
+		actions.moveToElement(applicantNationality).click().perform();		
+		applicantNationality.clear();
+		applicantNationality.sendKeys("Bangladeshi");
+		Thread.sleep(1000);
+		applicantNationality.sendKeys(Keys.ENTER);
+
+		WebElement applicantNationalId = wait.until(ExpectedConditions.elementToBeClickable(By.name("ApplicantNid")));
+		actions.moveToElement(applicantNationalId).click().perform();	
+
 		applicantNationalId.clear();
 		applicantNationalId.sendKeys(info.applicantNationalId);
 
 
-		driver.findElement(By.id("s2id_NEM_PD_NetMetering_NemApplicationPublicDialog0_ApplicantDistrictId")).click();
-		WebElement districtName = driver.findElement(By.id("s2id_autogen4_search")); 
+		WebElement districtParent = driver.findElement(By.id("s2id_NEM_PD_NetMetering_NemApplicationPublicDialog0_ApplicantDistrictId"));
+		actions.moveToElement(districtParent).click().perform();	
+
+		WebElement districtName = driver.findElement(By.id("s2id_autogen7_search")); 
 		districtName.click();
 		districtName.clear();
 		districtName.sendKeys(info.districtName);
@@ -95,62 +96,65 @@ public class Application extends ExtentITestListenerClassAdapter{
 		districtName.sendKeys(Keys.ENTER);
 
 		WebElement postCode = wait.until(ExpectedConditions.elementToBeClickable(By.id("NEM_PD_NetMetering_NemApplicationPublicDialog0_ApplicantPostCode")));
-		((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", postCode);
-		postCode.click();
+		actions.moveToElement(postCode).click().perform();
 		postCode.clear();
 		postCode.sendKeys(info.postCode);
 
 		WebElement applicantAddress = wait.until(ExpectedConditions.elementToBeClickable(By.id("NEM_PD_NetMetering_NemApplicationPublicDialog0_ApplicantAddress")));
-		//((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", applicantAddress);
-		applicantAddress.click();
+		actions.moveToElement(applicantAddress).click().perform();
 		applicantAddress.clear();
 		applicantAddress.sendKeys(info.applicantAddress);
 
+
 		WebElement alternatePersonName = wait.until(ExpectedConditions.elementToBeClickable(By.id("NEM_PD_NetMetering_NemApplicationPublicDialog0_AltContactPersonName")));
-		//((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", alternatePersonName);
-		alternatePersonName.click();
+		actions.moveToElement(alternatePersonName).click().perform();
 		alternatePersonName.clear();
 		alternatePersonName.sendKeys(info.alternatePersonName);
 
 		WebElement alternatePersonRelationship = wait.until(ExpectedConditions.elementToBeClickable(By.id("NEM_PD_NetMetering_NemApplicationPublicDialog0_AltContactPersonRelationship")));
-		((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", alternatePersonRelationship);
-		alternatePersonRelationship.click();
+		actions.moveToElement(alternatePersonRelationship).click().perform();
 		alternatePersonRelationship.clear();
 		alternatePersonRelationship.sendKeys(info.alternatePersonRelationship);
 
+
+		WebElement alternateNationalityParent = wait.until(ExpectedConditions.elementToBeClickable(By.id("s2id_NEM_PD_NetMetering_NemApplicationPublicDialog0_AltContactPersonNationality"))); 
+		actions.moveToElement(alternateNationalityParent).click().perform();
+
+		WebElement alternateNationality = driver.findElement(By.id("s2id_autogen8_search")); 
+		alternateNationality.click();
+		alternateNationality.clear();
+		alternateNationality.sendKeys("Bangladeshi");
+		Thread.sleep(1000);
+		alternateNationality.sendKeys(Keys.ENTER);
+
 		WebElement alternatePersonNid = wait.until(ExpectedConditions.elementToBeClickable(By.id("NEM_PD_NetMetering_NemApplicationPublicDialog0_AltContactPersonNid")));
-		// ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", alternatePersonNid);    
-		alternatePersonNid.click();
+		actions.moveToElement(alternatePersonNid).click().perform();
 		alternatePersonNid.clear();
 		alternatePersonNid.sendKeys(info.alternatePersonNid);
 
 		WebElement alternatePersonContactNumber = wait.until(ExpectedConditions.elementToBeClickable(By.id("NEM_PD_NetMetering_NemApplicationPublicDialog0_AltContactPersonContactNumber")));
-		//((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", alternatePersonContactNumber);
-		alternatePersonContactNumber.click();
+		actions.moveToElement(alternatePersonContactNumber).click().perform();
 		alternatePersonContactNumber.clear();
 		alternatePersonContactNumber.sendKeys(info.alternatePersonContactNumber);
 
 		WebElement alternatePersonEmail = wait.until(ExpectedConditions.elementToBeClickable(By.id("NEM_PD_NetMetering_NemApplicationPublicDialog0_AltContactPersonEmail")));
-		// ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", alternatePersonEmail);  
-		alternatePersonEmail.click();
+		actions.moveToElement(alternatePersonEmail).click().perform();
 		alternatePersonEmail.clear();
 		alternatePersonEmail.sendKeys(info.alternatePersonEmail);
 
+
 		WebElement alternatePersonAddress = wait.until(ExpectedConditions.elementToBeClickable(By.id("NEM_PD_NetMetering_NemApplicationPublicDialog0_AltContactPersonAddress")));
-		((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", alternatePersonAddress);  
-		alternatePersonAddress.click();
+		actions.moveToElement(alternatePersonAddress).click().perform();
 		alternatePersonAddress.clear();
 		alternatePersonAddress.sendKeys(info.alternatePersonAddress);
 
 
-		WebElement siteAddress = wait.until(ExpectedConditions.elementToBeClickable(By.id("NEM_PD_NetMetering_NemApplicationPublicDialog0_SiteAddress")));
-		((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", siteAddress);
-		siteAddress.click();
-		siteAddress.clear();
-		siteAddress.sendKeys(info.siteAddress);
 
-		driver.findElement(By.id("s2id_NEM_PD_NetMetering_NemApplicationPublicDialog0_SiteDistrictId")).click();
-		WebElement siteDistrictName = driver.findElement(By.id("s2id_autogen8_search")); 
+		WebElement siteDistrictParent = wait.until(ExpectedConditions.elementToBeClickable(By.id("s2id_NEM_PD_NetMetering_NemApplicationPublicDialog0_SiteDistrictId")));
+		actions.moveToElement(siteDistrictParent).click().perform();
+
+
+		WebElement siteDistrictName = driver.findElement(By.id("s2id_autogen11_search")); 
 		siteDistrictName.click();
 		siteDistrictName.clear();
 		siteDistrictName.sendKeys(info.siteDistrictName);
@@ -158,13 +162,13 @@ public class Application extends ExtentITestListenerClassAdapter{
 		siteDistrictName.sendKeys(Keys.ENTER);
 
 		WebElement sitePostalCode = wait.until(ExpectedConditions.elementToBeClickable(By.id("NEM_PD_NetMetering_NemApplicationPublicDialog0_SitePostCode")));
-		((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", sitePostalCode);
-		sitePostalCode.click();
+		actions.moveToElement(sitePostalCode).click().perform();
 		sitePostalCode.clear();
 		sitePostalCode.sendKeys(info.sitePostalCode);
 
-		driver.findElement(By.id("s2id_NEM_PD_NetMetering_NemApplicationPublicDialog0_SiteOwnership")).click();
-		WebElement siteOwnership = driver.findElement(By.id("s2id_autogen9_search")); 
+		WebElement siteOwnershipParent = driver.findElement(By.id("s2id_NEM_PD_NetMetering_NemApplicationPublicDialog0_SiteOwnership"));
+		actions.moveToElement(siteOwnershipParent).click().perform();
+		WebElement siteOwnership = driver.findElement(By.id("s2id_autogen12_search")); 
 		siteOwnership.click();
 		siteOwnership.clear();
 		siteOwnership.sendKeys(info.siteOwnership);
@@ -172,15 +176,15 @@ public class Application extends ExtentITestListenerClassAdapter{
 		siteOwnership.sendKeys(Keys.ENTER);
 
 		WebElement ProposedReCapacityKw = wait.until(ExpectedConditions.elementToBeClickable(By.id("NEM_PD_NetMetering_NemApplicationPublicDialog0_ProposedReSystemCapacityKw")));
-		((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", ProposedReCapacityKw);
-		ProposedReCapacityKw.click();
+		actions.moveToElement(ProposedReCapacityKw).click().perform();
 		ProposedReCapacityKw.clear();
 		ProposedReCapacityKw.sendKeys(info.ProposedReCapacityKw);
 
+
 		WebElement connectionPointVoltageLevelParent = wait.until(ExpectedConditions.elementToBeClickable(By.id("s2id_NEM_PD_NetMetering_NemApplicationPublicDialog0_ConnectionPointVoltageLevel")));
-		((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", connectionPointVoltageLevelParent);
-		connectionPointVoltageLevelParent.click();
-		WebElement connectionPointVoltageLevel = driver.findElement(By.id("s2id_autogen10_search")); 
+		actions.moveToElement(connectionPointVoltageLevelParent).click().perform();
+
+		WebElement connectionPointVoltageLevel = driver.findElement(By.id("s2id_autogen13_search")); 
 		connectionPointVoltageLevel.click();
 		connectionPointVoltageLevel.clear();
 		connectionPointVoltageLevel.sendKeys(info.connectionPointVoltageLevel);
@@ -188,16 +192,15 @@ public class Application extends ExtentITestListenerClassAdapter{
 		connectionPointVoltageLevel.sendKeys(Keys.ENTER); 
 
 		WebElement projectStatusParent = wait.until(ExpectedConditions.elementToBeClickable(By.id("s2id_NEM_PD_NetMetering_NemApplicationPublicDialog0_ProjectStatus")));
-		((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", projectStatusParent);
-		projectStatusParent.click();
-		WebElement projectStatus = driver.findElement(By.id("s2id_autogen12_search")); 
+		actions.moveToElement(projectStatusParent).click().perform();
+		WebElement projectStatus = driver.findElement(By.id("s2id_autogen15_search")); 
 		projectStatus.click();
 		projectStatus.clear();
 		projectStatus.sendKeys(info.projectStatus);
 		Thread.sleep(1000);
 		projectStatus.sendKeys(Keys.ENTER);
 
-		WebElement buildingType = driver.findElement(By.id("s2id_autogen13")); 
+		WebElement buildingType = driver.findElement(By.id("s2id_autogen16")); 
 		wait.until(ExpectedConditions.visibilityOf(buildingType));
 		buildingType.click();
 		buildingType.clear();
@@ -207,49 +210,40 @@ public class Application extends ExtentITestListenerClassAdapter{
 
 
 		WebElement installationTypeParent = wait.until(ExpectedConditions.elementToBeClickable(By.id("s2id_NEM_PD_NetMetering_NemApplicationPublicDialog0_InstallationType")));
-		((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", installationTypeParent);
-		installationTypeParent.click();
-		WebElement installationType = wait.until(ExpectedConditions.elementToBeClickable(By.id("s2id_autogen14_search")));
+		actions.moveToElement(installationTypeParent).click().perform();
+		WebElement installationType = wait.until(ExpectedConditions.elementToBeClickable(By.id("s2id_autogen17_search")));
 		installationType.click();
 		installationType.clear();
 		installationType.sendKeys(info.installationType);
 		Thread.sleep(1000);
 		installationType.sendKeys(Keys.ENTER);
 
-		driver.findElement(By.id("s2id_NEM_PD_NetMetering_NemApplicationPublicDialog0_StorageBatteryUsed")).click();
-		WebElement storageBatteryUsed = driver.findElement(By.id("s2id_autogen15_search")); 
-		storageBatteryUsed.click();
+		WebElement storageBatteryParent = driver.findElement(By.id("s2id_NEM_PD_NetMetering_NemApplicationPublicDialog0_StorageBatteryUsed"));
+		actions.moveToElement(storageBatteryParent).click().perform();
+		WebElement storageBatteryUsed = wait.until(ExpectedConditions.elementToBeClickable(By.id("s2id_autogen18_search")));
 		storageBatteryUsed.clear();
 		storageBatteryUsed.sendKeys(info.storageBatteryUsed);
 		Thread.sleep(1000);
 		storageBatteryUsed.sendKeys(Keys.ENTER);
 
-		/*try {
-
-   	 	WebElement declarationTick = wait.until(ExpectedConditions.elementToBeClickable(By.id("NEM_PD_NetMetering_NemApplicationPublicDialog0_TnCAgreed")));
-   	    ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", declarationTick);
-   	    declarationTick.click();
-
-   	} catch(Exception e){
-
-   	  System.out.println("An error occurred: " + e.getMessage());
-      e.printStackTrace();
-   	}
-		 */
-
-		((JavascriptExecutor) driver).executeScript("window.scrollBy(0,2000)");
+		
+		WebElement tickMark = driver.findElement(By.id("NEM_PD_NetMetering_NemApplicationPublicDialog0_TnCAgreed"));
+		actions.moveToElement(tickMark).click().perform();
+		
 
 		//Signature and Image attachment.
-		WebElement Signature = wait.until(ExpectedConditions.visibilityOfElementLocated(By.name("Serenity_ImageUploadEditor81[]")));
+	 	WebElement signature = driver.findElement(By.name("Serenity_ImageUploadEditor83[]"));
 
-		((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", Signature);
 
 		File file = new File("src/test/resources/images/Signature.png");
-		Signature.sendKeys(file.getAbsolutePath());
-
+		signature.sendKeys(file.getAbsolutePath());
+		
+				
+		WebElement captchaEntry = driver.findElement(By.xpath("//div[@id='NEM_PD_NetMetering_NemApplicationPublicDialog0_Captcha']/div/input"));
+		actions.moveToElement(captchaEntry).click().perform();
 
 	}
 
-	
+
 
 }

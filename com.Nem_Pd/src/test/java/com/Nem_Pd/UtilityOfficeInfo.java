@@ -5,14 +5,20 @@ import org.testng.annotations.Test;
 
 
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.NoAlertPresentException;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -25,18 +31,23 @@ public class UtilityOfficeInfo extends ExtentITestListenerClassAdapter {
 
 
 
-	@SuppressWarnings("resource")
 
 	@Test(description="Inserting Utility Office Information")
 	public void InsertUtilityOfficeInfo( ) throws InterruptedException, IOException {
+
+		@SuppressWarnings("deprecation")
+		WebDriverWait wait = new WebDriverWait(driver, 10);
+
 		driver.get(info.loginUrl);
 
-		WebElement userName = driver.findElement(By.name("Username"));  
+
+		WebElement userName = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("username")));
+
 		userName.click();
 		userName.clear();
 		userName.sendKeys(info.adminUserName);
 
-		WebElement password = driver.findElement(By.name("Password"));  
+		WebElement password = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("password")));
 		password.click();
 		password.clear();
 		password.sendKeys(info.adminPassword);
@@ -50,8 +61,9 @@ public class UtilityOfficeInfo extends ExtentITestListenerClassAdapter {
 
 
 		// Load the Excel file
-		FileInputStream fis = new FileInputStream(".\\src\\test\\resources\\data\\DPDC.xlsx");
+		FileInputStream fis = new FileInputStream(".\\src\\test\\resources\\data\\Test.xlsx");
 		Workbook workbook = new XSSFWorkbook(fis);
+
 
 		// Get the first sheet of the workbook
 		Sheet sheet = workbook.getSheetAt(0);
@@ -84,8 +96,7 @@ public class UtilityOfficeInfo extends ExtentITestListenerClassAdapter {
 			WebElement newUtilityOfficeBtn = driver.findElement(By.xpath("//*[@id=\"GridDiv\"]/div[2]/div[2]/div/div/div[1]/div/span"));  
 			newUtilityOfficeBtn.click();
 
-			@SuppressWarnings("deprecation")
-			WebDriverWait wait = new WebDriverWait(driver, 10);
+
 
 			wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("s2id_NEM_PD_Setup_UtilityOfficeDialog5_UtilityId"))).click();
 
@@ -126,9 +137,41 @@ public class UtilityOfficeInfo extends ExtentITestListenerClassAdapter {
 			WebElement saveBtn = driver.findElement(By.xpath("//*[@id=\"NEM_PD_Setup_UtilityOfficeDialog5_Toolbar\"]/div/div/div/div[1]/div/span"));  
 			saveBtn.click();
 
+
+			
+		    try {
+		        // Try to switch to an alert
+		        //Alert alert = driver.switchTo().alert();
+		        Alert alert = wait.until(ExpectedConditions.alertIsPresent());
+
+		        // If alert is found, get the alert text and dismiss the alert
+		        String alertText = alert.getText();
+
+		        alert.accept();
+
+		        // Write the error message in cell 8
+		        Cell errorCell = row.createCell(7, CellType.STRING);
+		        errorCell.setCellValue(alertText);
+
+		       
+		        
+		    } catch (NoAlertPresentException e) {
+		        // No alert means success, so we continue to mark it as "Done"
+		      
+
+		    }
+
+		    
+
+			
 		}
 
-
+		  // Save the changes to the Excel file
+        fis.close();
+        FileOutputStream fos = new FileOutputStream(".\\src\\test\\resources\\data\\Test.xlsx");
+        workbook.write(fos);
+        fos.close();
+        workbook.close();
 
 
 

@@ -5,11 +5,13 @@ import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
@@ -35,6 +37,7 @@ public class ExtentITestListenerClassAdapter implements ITestListener{
 
 	protected static WebDriver driver;
 
+	public static String ChromeDriverPath=".\\src\\test\\resources\\drivers\\chromedriver.exe";
 
 
 	@Parameters("browser")
@@ -42,9 +45,30 @@ public class ExtentITestListenerClassAdapter implements ITestListener{
 	public void setUp(String browser) {
 
 		if(browser.equalsIgnoreCase("chrome")) {
-			WebDriverManager.chromedriver().setup();              
-			driver = new ChromeDriver();
 
+			WebDriverManager.chromedriver().setup();
+			ChromeOptions options = new ChromeOptions();
+
+			options.addArguments("--start-maximized"); 
+			driver = new ChromeDriver(options);
+
+
+
+			driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+
+			
+
+			//System.setProperty("webdriver.chrome.driver",ChromeDriverPath);
+			//driver=new ChromeDriver();
+
+
+
+			//options.setBinary("C:\\Kafi\\Others\\Kafi_Tools\\Chrome\\chrome-win64\\chrome.exe");
+
+			// Initialize the ChromeDriver with the specified options
+			//driver = new ChromeDriver(options);
+
+			
 		}
 		else if(browser.equalsIgnoreCase("firefox")) {
 			WebDriverManager.firefoxdriver().setup();              
@@ -58,9 +82,9 @@ public class ExtentITestListenerClassAdapter implements ITestListener{
 
 
 	@AfterClass
-	public void tearDown() {
+	public void tearDown() throws Exception {
 		// Close the browser
-		driver.quit();
+		//driver.quit();
 	}
 
 

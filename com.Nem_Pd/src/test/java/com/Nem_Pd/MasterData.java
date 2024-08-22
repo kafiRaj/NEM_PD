@@ -2,16 +2,16 @@ package com.Nem_Pd;
 
 public class MasterData {
 	
-	String baseUrl = "http://103.69.149.44/NEM_PD_Portal/Apply";
-
+	//String applicationUrl = "http://103.69.149.44/NEM_PD_Portal/Apply";
+	String liveApplicationUrl = "https://nem.powerdivision.gov.bd";
 	String loginUrl = "http://103.69.149.44/NEM_PD/Account/Login";
 	  
 	String adminUserName = "admin";
 	String adminPassword = "serenity";
 	
 	
-	String utilityName = "DESCO";
-	String consumerAccountNumber = "12345678";
+	String utilityName = "DPDC";
+	String consumerAccountNumber = "26563549";
 	String consumerName = "Md. Aminul Islam";	
 	String meterNumber = "021525";	
 	String tariff = "LT-A";	

@@ -7,21 +7,13 @@
   <test thread-count="5" name="Net Metering Application Test(failed)">
     <parameter name="browser" value="chrome"/>
     <classes>
-      <class name="com.Nem_Pd.UtilityOfficeInfo">
-        <methods>
-          <include name="InsertUtilityOfficeInfo"/>
-          <include name="setUp"/>
-          <include name="tearDown"/>
-          <include name="afterMethod"/>
-        </methods>
-      </class> <!-- com.Nem_Pd.UtilityOfficeInfo -->
-      <class name="com.Nem_Pd.Application">
+      <class name="com.Nem_Pd.CleanApplication">
         <methods>
           <include name="submitApplication"/>
           <include name="setUp"/>
           <include name="tearDown"/>
         </methods>
-      </class> <!-- com.Nem_Pd.Application -->
+      </class> <!-- com.Nem_Pd.CleanApplication -->
     </classes>
   </test> <!-- Net Metering Application Test(failed) -->
 </suite> <!-- Failed suite [MyTestSuite] -->
